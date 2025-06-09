@@ -1,0 +1,37 @@
+services:
+
+  postgres:
+    container_name: postgres_splat
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: ${DB__NAME}
+      POSTGRES_USER: ${DB__USER}
+      POSTGRES_PASSWORD: ${DB__PASS}
+    ports:
+      - "${DB__PORT}:${DB__PORT}"
+    volumes:
+      - db_data:/var/lib/postgresql/data:cached
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host ${BACKEND_SERVER__HOST} --port ${BACKEND_SERVER__PORT} --workers ${BACKEND_SERVER__WORKERS} --reload
+    tty: true
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_SERVER__PORT}:${BACKEND_SERVER__PORT}"
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  db_data:
