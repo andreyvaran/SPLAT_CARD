@@ -29,8 +29,8 @@ class AppSettings(BaseSettings):
     def swagger_conf(self) -> dict:
         return dict(
             version="0.0.1",
-            description="SmileAI Content REST API",
-            title="smile_content_ai",
+            description="SPLAT Image Processor REST API",
+            title="SPLAT IMAGE PROCESSOR",
             docs_url="/api/swagger",
             openapi_url="/api/test",
         )

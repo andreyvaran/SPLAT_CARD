@@ -3,8 +3,6 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
 
 from starlette import status
 
@@ -31,7 +29,7 @@ async def lifespan(app: FastAPI):
     await database_accessor.check_alembic_version()
 
     redis = aioredis.from_url(app_config.REDIS_ENDPOINT)
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    # FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
     create_admin(app, database_accessor.engine)  # add admin
 
