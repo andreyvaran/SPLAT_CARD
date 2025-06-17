@@ -31,5 +31,9 @@ mim install "mmcv==2.0.0rc4"
 Последняя штука может собираться минут 5-10. Фиг его знает почему. 
 
 ### Запуск
-```python run.py```
+```docker compose up -d  postgres redis ```
 
+```python run.py``` 
+
+or 
+```nohuo python run.py```
