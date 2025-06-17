@@ -13,13 +13,6 @@ class FileStatus(str, Enum):
     Success = "Success"
 
 
-class ResearchData(MyBaseModel):
-    id: UUID4
-    result: dict | None = None
-    files: list[str]
-    status: FileStatus
-    create_date: datetime.datetime
-
 
 class NeironColorResult(MyBaseModel):
     color_module_1: str | None = None
@@ -37,3 +30,13 @@ class ResearchInnerResult(MyBaseModel):
     total_level_protein: NeironColorResult | None = None
     ph_level: NeironColorResult | None = None
     total_stiffness: NeironColorResult | None = None
+
+
+
+class ResearchData(MyBaseModel):
+    id: UUID4
+    result: ResearchInnerResult | None = None
+    files: list[str]
+    status: FileStatus
+    create_date: datetime.datetime
+
