@@ -9,7 +9,7 @@ from alembic.util import status
 from fastapi import UploadFile, status, HTTPException
 from fastapi.responses import FileResponse
 
-from app.schemas.research import ResearchData, FileStatus
+from app.schemas.research import ResearchData, FileStatus, ResearchInnerResult, NeironColorResult
 from database.unitofwork import IUnitOfWork, UnitOfWork
 from neiron.image_processor import ImageProcessor, get_image_processor
 from storage.file_storage.file_storage import default_file_storage
@@ -77,7 +77,6 @@ class ResearchService:
             user_token = await uow.user_token.get_one(hex_token=user_token)
             if not user_token:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Token not found")
-            # process_image
             image = await cls.convert_any_to_jpg(photo)
             research = await uow.research.add_one(data=dict(
                 user_token_id=user_token.id,
@@ -100,14 +99,26 @@ class ResearchService:
                         ))
                     else:
                         new_image = image_processor.make_results(image=image, research_id=research.id)
+                        # get image results
+                        temp_result = NeironColorResult(color_module_1="some_color1", color_module_2="some_color2", result=123.123)
+                        data = ResearchInnerResult(
+                            processed_image = str(new_image),
+                            white_blood_cels=temp_result,
+                            read_blood_cels=temp_result,
+                            total_level_protein=temp_result,
+                            ph_level=temp_result,
+                            total_stiffness=temp_result,
+                        )
+
                         await uow.research.edit_one(research.id, data=dict(
                             status=FileStatus.Success,
-                            result= {"finish": True, "processed_image": str(new_image)},
+                            result= data.model_dump(),
                             files=[storage_result.data, str(new_image)],
                         ))
                 except Exception as e:
+                    data = ResearchInnerResult(error_message=str(e), finish=False)
                     await uow.research.edit_one(research.id, data=dict(
-                        result={"finish": False, "error_message": str(e)},
+                        result=data.model_dump(),
                         status=FileStatus.Error,
                     ))
 

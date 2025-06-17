@@ -6,7 +6,6 @@ from PIL import Image, ImageDraw
 
 from PIL import ImageFont
 
-import cv2
 
 
 def vis_bbox_for_mean_color(image, bbox_dir, test_zones, test_path):

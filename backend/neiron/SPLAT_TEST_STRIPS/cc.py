@@ -12,7 +12,6 @@ from sklearn.metrics import (
     mean_absolute_error,
     mean_squared_error,
     mean_absolute_percentage_error,
-    r2_score,
 )
 
 import math

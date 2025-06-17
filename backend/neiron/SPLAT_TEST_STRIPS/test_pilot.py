@@ -1,20 +1,16 @@
 import os
 
-from PIL import Image, ImageDraw
+from PIL import Image
 
 import preprocessing
 import detection
-import cc
 import colorcorrection
 import concentration
-import check_detection
 import translate_transform_detection
 
 import numpy as np
 
-import math
 
-from sys import argv
 
 import warnings
 
@@ -26,11 +22,8 @@ import torch
 
 import json
 
-from PIL import ImageFont
 
-import preprocessing
 
-import numpy as np
 
 import time
 

@@ -1,13 +1,12 @@
 import os
 
-from PIL import Image, ImageDraw
+from PIL import Image
 
 import detection
 import cc
 import translate_transform_detection
 
 
-from sys import argv
 
 import warnings
 

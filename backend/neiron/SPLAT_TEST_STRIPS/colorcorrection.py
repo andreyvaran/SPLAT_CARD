@@ -3,7 +3,6 @@ from catboost import CatBoostRegressor
 from sklearn.svm import SVR
 import cv2
 
-import numpy as np
     
 class CCTransformer:
     def __init__(self, 

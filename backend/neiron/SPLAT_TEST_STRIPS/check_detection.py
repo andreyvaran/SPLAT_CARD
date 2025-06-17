@@ -2,7 +2,7 @@ import numpy as np
 
 import math
 
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 
 from matplotlib.path import Path
 
