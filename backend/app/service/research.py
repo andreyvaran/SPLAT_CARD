@@ -9,7 +9,7 @@ from alembic.util import status
 from fastapi import UploadFile, status, HTTPException
 from fastapi.responses import FileResponse
 
-from app.schemas.research import ResearchData, FileStatus, ResearchInnerResult, NeironColorResult
+from app.schemas.research import ResearchData, FileStatus, ResearchInnerResult, NeuronColorResult
 from database.unitofwork import IUnitOfWork, UnitOfWork
 from neiron.image_processor import ImageProcessor, get_image_processor
 from storage.file_storage.file_storage import default_file_storage
@@ -100,7 +100,7 @@ class ResearchService:
                     else:
                         new_image = image_processor.make_results(image=image, research_id=research.id)
                         # get image results
-                        temp_result = NeironColorResult(color_module_1="some_color1", color_module_2="some_color2", result=123.123)
+                        temp_result = NeuronColorResult(color_module_1="some_color1", color_module_2="some_color2", result=123.123)
                         data = ResearchInnerResult(
                             processed_image = str(new_image),
                             white_blood_cels=temp_result,

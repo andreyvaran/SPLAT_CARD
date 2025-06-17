@@ -14,7 +14,7 @@ class FileStatus(str, Enum):
 
 
 
-class NeironColorResult(MyBaseModel):
+class NeuronColorResult(MyBaseModel):
     color_module_1: str | None = None
     color_module_2: str | None = None
     result: float
@@ -25,11 +25,11 @@ class ResearchInnerResult(MyBaseModel):
     error_message: str | None = None
     processed_image: str | None = None
 
-    white_blood_cells: NeironColorResult | None = None
-    read_blood_cells: NeironColorResult | None = None
-    total_level_protein: NeironColorResult | None = None
-    ph_level: NeironColorResult | None = None
-    total_stiffness: NeironColorResult | None = None
+    white_blood_cells: NeuronColorResult | None = None
+    red_blood_cells: NeuronColorResult | None = None
+    total_level_protein: NeuronColorResult | None = None
+    ph_level: NeuronColorResult | None = None
+    total_stiffness: NeuronColorResult | None = None
 
 
 
