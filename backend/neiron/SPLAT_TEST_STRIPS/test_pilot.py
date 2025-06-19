@@ -37,7 +37,8 @@ import pandas as pd
 
 def blockPrint():
 
-    sys.stdout = open(os.devnull, "w")
+    pass
+    # sys.stdout = open(os.devnull, "w")
 
 
 def enablePrint():
@@ -84,13 +85,13 @@ def apply_transform_and_save_image(input_array, cc_model, output_path,
     
     for i in range(n):
         for j in range(m):
-            
+
             original_vector = input_array[i, j]
 
             transformed_vector = cc_model.transform(original_vector)
 
             output_array[i, j] = transformed_vector
-    
+        print(i)
 
     #image = Image.fromarray(output_array)
     
@@ -157,10 +158,10 @@ label_id = main_cnfg["label_id"]
 test_zones = main_cnfg["test_zones"]
 
 
-# order = main_cnfg['order']
-
+order = main_cnfg['order']
+print(f"{order=}")
 coefs = main_cnfg['coefs']
-
+print(coefs)
 
 result_file = {}
 
@@ -215,14 +216,14 @@ for img in sorted(os.listdir(directory)):
     bbox_dir, score_dir = translate_transform_detection.change_labels(
         bbox_dir, score_dir, label_id
     )
-    enablePrint()
+    # enablePrint()
     bbox_dir = translate_transform_detection.detection_transform(
         bbox_dir, original_shape, [1024, 1024]
     )
 
-    end = time.time()
+    # end = time.time()
 
-    enablePrint()
+    # enablePrint()
 
     #print(f"Detection done in {round(end-start, 5)} s")
 
@@ -319,8 +320,8 @@ for img in sorted(os.listdir(directory)):
     
     image = Image.open(os.path.join(directory, img))
     
-    apply_transform_and_save_image(np.array(image), cc_model, f'/Users/mark/Desktop/splat_test_strips/test_res/transformed_{img}')
-    
+    # apply_transform_and_save_image(np.array(image), cc_model, f'/home/andrey-varan/PycharmProjects/SPLAT_CARD_ALALIZE/backend/results/transformed_{img}')
+    # print("after transform")
     
 
 
@@ -328,7 +329,7 @@ for img in sorted(os.listdir(directory)):
 
     end = time.time()
 
-    #print(f"Colorcorrection done in {round(end-start, 5)} s")
+    # print(f"Colorcorrection done in {round(end-start, 5)} s")
 
     res_values = []
     
@@ -374,24 +375,25 @@ for img in sorted(os.listdir(directory)):
     result_file[str(img)]['color_cal_photo'] = [list(el) for el in color_cal] + [list(el) for el in color_eval]
     
     result_file[str(img)]['color_cal_correct'] = [list(cc_model.transform(el))  for el in color_cal] + [list(cc_model.transform(el))  for el in color_eval]
-        
+
+    print("start loop")
 
     for i in range(len(color_zone)):
-        
+        print(i)
         el = order[i]
         
-        #print(el)
+        print(el)
         
         cc_color, cc_color_af = cc_model.transform(color_zone[i], printt = True)
         
         #print(cc_color)
-        
-        res_values.append(concentration.func(cc_color, *coefs[i]))
+        res_values.append(concentration.approximate_concentration(i, cc_color))
+        # res_values.append(concentration.func(cc_color, *coefs[i]))
         
         res_values = [round(el1, 2) for el1 in res_values]
         
         result_file[str(img)][str(el)] = {'photo_color' : color_zone[i].tolist(),'corrected_color' : cc_color, 'approximated_value' : res_values[i]}
-        
+        print({'photo_color': color_zone[i].tolist(), 'corrected_color': cc_color, 'approximated_value': res_values[i]})
         print(el , f'1st_cor : {list(cc_color_af)}', result_file[str(img)][str(el)])
         
     #result_file[str(img)]['all'] = res_values

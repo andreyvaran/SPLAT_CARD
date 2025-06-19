@@ -98,24 +98,25 @@ class ResearchService:
                             status=FileStatus.NotValid,
                         ))
                     else:
-                        new_image = image_processor.make_results(image=image, research_id=research.id)
+                        new_image, result = image_processor.make_results(image=image, research_id=research.id)
                         # get image results
-                        temp_result = NeuronColorResult(color_module_1="some_color1", color_module_2="some_color2", result=123.123)
-                        data = ResearchInnerResult(
-                            processed_image = str(new_image),
-                            white_blood_cels=temp_result,
-                            read_blood_cels=temp_result,
-                            total_level_protein=temp_result,
-                            ph_level=temp_result,
-                            total_stiffness=temp_result,
-                        )
+                        # temp_result = NeuronColorResult(color_module_1="some_color1", color_module_2="some_color2", result=123.123)
+                        # data = ResearchInnerResult(
+                        #     processed_image = str(new_image),
+                        #     white_blood_cels=temp_result,
+                        #     read_blood_cels=temp_result,
+                        #     total_level_protein=temp_result,
+                        #     ph_level=temp_result,
+                        #     total_stiffness=temp_result,
+                        # )
 
                         await uow.research.edit_one(research.id, data=dict(
                             status=FileStatus.Success,
-                            result= data.model_dump(),
+                            result= result.model_dump(),
                             files=[storage_result.data, str(new_image)],
                         ))
                 except Exception as e:
+                    raise e
                     data = ResearchInnerResult(error_message=str(e), finish=False)
                     await uow.research.edit_one(research.id, data=dict(
                         result=data.model_dump(),
