@@ -47,6 +47,7 @@ class ResearchAdmin(BaseModelView, model=ResearchORM):
         ResearchORM.result,
         ResearchORM.user_token,
     ]
+    column_searchable_list = [ResearchORM.id]
     form_ajax_refs = {
         'user_token': {
             'fields': (UserTokenORM.name, UserTokenORM.hex_token),
