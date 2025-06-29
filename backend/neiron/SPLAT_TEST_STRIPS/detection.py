@@ -16,6 +16,7 @@ class SPLATdetection:
         self.weights_path = weights_path
 
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        print(f"{torch.cuda.is_available()=}")
 
         logging.getLogger("mmcv").setLevel(logging.CRITICAL)
 
