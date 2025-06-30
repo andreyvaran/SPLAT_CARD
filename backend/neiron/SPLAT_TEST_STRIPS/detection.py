@@ -17,6 +17,10 @@ class SPLATdetection:
 
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print(f"{torch.cuda.is_available()=}")
+        print(f"{device=}")
+        print(f"{torch.__version__=}")
+        print(f"{torch.version.cuda=}")
+        print(f"{torch.cuda.device_count()=}")
 
         logging.getLogger("mmcv").setLevel(logging.CRITICAL)
 
